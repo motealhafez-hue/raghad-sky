@@ -5,7 +5,7 @@ const title = 'A Sky for Raghad | سماء لرغد';
 const description = 'A cinematic birthday journey from twilight to morning, made for Raghad.';
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://sites.openai.com'),
+  metadataBase: new URL('https://raghad-birthday-sky.motealhafez.chatgpt.site'),
   title,
   description,
   openGraph: {
