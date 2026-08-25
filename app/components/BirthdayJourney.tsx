@@ -128,22 +128,14 @@ export function BirthdayJourney() {
       gsap.utils.toArray<HTMLElement>('.story-chapter').forEach((section) => {
         const copy = section.querySelector('.chapter-copy');
         if (!copy) return;
-        gsap.fromTo(copy, { opacity: 0.08, y: reducedMotion ? 12 : 62, filter: 'blur(9px)' }, {
+        gsap.fromTo(copy, { opacity: reducedMotion ? 1 : 0, y: reducedMotion ? 0 : 34, filter: reducedMotion ? 'blur(0px)' : 'blur(4px)' }, {
           opacity: 1,
           y: 0,
           filter: 'blur(0px)',
-          ease: 'none',
-          scrollTrigger: { trigger: section, start: 'top 82%', end: 'center 58%', scrub: reducedMotion ? false : 0.65 },
+          duration: reducedMotion ? 0.01 : 0.9,
+          ease: 'power2.out',
+          scrollTrigger: { trigger: section, start: 'top 84%', toggleActions: 'play none none reverse' },
         });
-        if (!section.dataset.final) {
-          gsap.to(copy, {
-            opacity: 0,
-            y: reducedMotion ? -8 : -42,
-            filter: 'blur(7px)',
-            ease: 'none',
-            scrollTrigger: { trigger: section, start: 'center 37%', end: 'bottom 18%', scrub: reducedMotion ? false : 0.65 },
-          });
-        }
       });
     }, main);
 
