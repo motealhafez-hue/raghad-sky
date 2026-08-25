@@ -81,7 +81,15 @@ export function OwlScene({
 
   return (
     <div className="owl-world" aria-hidden="true">
-      <div ref={branchRef} className="branch"><i /><i /><i /></div>
+      <div ref={branchRef} className="branch">
+        <span className="branch-limb" />
+        <span className="branch-highlight highlight-one" />
+        <span className="branch-highlight highlight-two" />
+        <span className="branch-knot" />
+        <span className="branch-twig twig-one"><i /></span>
+        <span className="branch-twig twig-two"><i /></span>
+        <span className="branch-twig twig-three" />
+      </div>
       <div ref={owlRef} className="owl-sprite" />
     </div>
   );

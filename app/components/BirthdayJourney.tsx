@@ -72,6 +72,8 @@ export function BirthdayJourney() {
     const main = mainRef.current;
     const stage = stageRef.current;
     if (!main || !stage) return;
+    const root = document.documentElement;
+    const body = document.body;
     gsap.registerPlugin(ScrollTrigger);
 
     let lenis: Lenis | null = null;
@@ -87,11 +89,29 @@ export function BirthdayJourney() {
       lenisFrame = requestAnimationFrame(frame);
     }
 
+    let lastTouchY = 0;
+    const handleTouchStart = (event: TouchEvent) => {
+      lastTouchY = event.touches[0]?.clientY ?? 0;
+    };
+    const handleTouchMove = (event: TouchEvent) => {
+      const touchY = event.touches[0]?.clientY;
+      if (touchY === undefined) return;
+      const movingPastTop = window.scrollY <= 0 && touchY > lastTouchY;
+      const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
+      const movingPastBottom = window.scrollY >= maxScroll - 1 && touchY < lastTouchY;
+      if (movingPastTop || movingPastBottom) event.preventDefault();
+      lastTouchY = touchY;
+    };
+    document.addEventListener('touchstart', handleTouchStart, { passive: true });
+    document.addEventListener('touchmove', handleTouchMove, { passive: false });
+
     const applyProgress = (progress: number) => {
       progressRef.current = progress;
       const night = smooth(0.055, 0.3, progress) * (1 - smooth(0.68, 0.9, progress));
       const dawn = smooth(0.64, 0.82, progress) * (1 - smooth(0.9, 1, progress));
       const day = smooth(0.82, 0.985, progress);
+      const backdrop = smooth(0.74, 0.98, progress);
+      const backdropColor = `rgb(${Math.round(9 + 239 * backdrop)} ${Math.round(11 + 212 * backdrop)} ${Math.round(38 + 151 * backdrop)})`;
       const constellations = smooth(0.24, 0.39, progress) * (1 - smooth(0.66, 0.83, progress));
       const moonPhase = smooth(0.12, 0.58, progress);
       const moonFade = 1 - smooth(0.7, 0.88, progress);
@@ -109,6 +129,8 @@ export function BirthdayJourney() {
       stage.style.setProperty('--moon-scale', `${0.68 + smooth(0.18, 0.52, progress) * 0.46}`);
       stage.style.setProperty('--sunrise', `${smooth(0.77, 0.96, progress)}`);
       stage.style.setProperty('--haze', `${smooth(0.62, 0.9, progress)}`);
+      root.style.backgroundColor = backdropColor;
+      body.style.backgroundColor = backdropColor;
     };
 
     const journeyTrigger = ScrollTrigger.create({
@@ -140,6 +162,10 @@ export function BirthdayJourney() {
       journeyTrigger.kill();
       lenis?.destroy();
       cancelAnimationFrame(lenisFrame);
+      document.removeEventListener('touchstart', handleTouchStart);
+      document.removeEventListener('touchmove', handleTouchMove);
+      root.style.removeProperty('background-color');
+      body.style.removeProperty('background-color');
     };
   }, [reducedMotion]);
 
