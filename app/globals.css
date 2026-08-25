@@ -9,8 +9,9 @@
 }
 
 * { box-sizing: border-box; }
-html { min-height: 100%; background: #090b26; scrollbar-width: thin; scrollbar-color: rgba(255,255,255,.22) transparent; }
+html { min-height: 100%; background: #090b26; scrollbar-width: none; }
 body { min-height: 100%; margin: 0; overflow-x: hidden; background: #090b26; color: var(--ink); font-family: var(--sans); }
+html::-webkit-scrollbar, body::-webkit-scrollbar { display: none; width: 0; height: 0; }
 button, input, textarea, select { font: inherit; }
 ::selection { background: rgba(244, 202, 177, .32); color: #fff; }
 
@@ -47,7 +48,7 @@ button, input, textarea, select { font: inherit; }
 .atmospheric-haze { position: absolute; inset: 38% -14% -24%; opacity: var(--haze); filter: blur(42px); background: radial-gradient(ellipse at center, rgba(255, 213, 183, .36), transparent 68%); }
 .grain { position: absolute; inset: 0; opacity: .08; mix-blend-mode: soft-light; background-image: radial-gradient(circle at 17% 31%, #fff 0 .5px, transparent .7px), radial-gradient(circle at 73% 67%, #fff 0 .45px, transparent .65px); background-size: 5px 7px, 7px 5px; }
 
-.star-canvas { position: absolute; inset: 0; width: 100%; height: 100%; }
+.star-canvas { position: absolute; inset: 0; width: 100%; height: 100%; contain: strict; transform: translateZ(0); }
 .constellation-layer { position: absolute; inset: 0; width: 100%; height: 100%; opacity: min(1, calc(var(--constellation) * 1.15)); filter: drop-shadow(0 0 5px rgba(197, 209, 255, .58)); }
 .constellation path { fill: none; stroke: rgba(210, 220, 255, .68); stroke-width: .75; stroke-dasharray: 1; stroke-dashoffset: calc(1 - var(--constellation)); vector-effect: non-scaling-stroke; }
 .constellation circle { fill: rgba(243, 246, 255, .92); stroke: rgba(213, 222, 255, .3); stroke-width: 10; paint-order: stroke; }
@@ -80,9 +81,6 @@ button, input, textarea, select { font: inherit; }
 .branch i:nth-child(3) { transform: rotate(-16deg); right: 1%; }
 
 .experience-ui { position: fixed; z-index: 20; inset: 0; pointer-events: none; }
-.journey-progress { position: absolute; top: 50%; right: max(1rem, env(safe-area-inset-right)); width: 1px; height: min(28vh, 220px); overflow: hidden; transform: translateY(-50%); background: rgba(255,255,255,.14); }
-.journey-progress i { display: block; width: 100%; height: 100%; transform: scaleY(var(--progress)); transform-origin: top; background: linear-gradient(#fff, #f5bfaf); }
-.chapter-count { position: absolute; top: calc(50% + min(17vh, 135px)); right: max(.68rem, env(safe-area-inset-right)); color: rgba(255,255,255,.45); font-size: .58rem; letter-spacing: .13em; writing-mode: vertical-rl; }
 .audio-toggle { position: absolute; top: max(1rem, env(safe-area-inset-top)); right: max(1rem, env(safe-area-inset-right)); display: flex; align-items: center; gap: .62rem; padding: .62rem .76rem; pointer-events: auto; cursor: pointer; border: 1px solid rgba(255,255,255,.14); border-radius: 999px; color: rgba(255,255,255,.7); background: rgba(7,10,29,.22); box-shadow: 0 10px 36px rgba(4,6,22,.12); backdrop-filter: blur(12px); font-size: .64rem; letter-spacing: .08em; text-transform: uppercase; }
 .audio-toggle:focus-visible { outline: 2px solid rgba(255,255,255,.9); outline-offset: 4px; }
 .audio-toggle:active { transform: scale(.94); }
@@ -95,12 +93,12 @@ button, input, textarea, select { font: inherit; }
 @keyframes soundBar { to { height: 100%; } }
 
 .story-track { position: relative; z-index: 3; margin-top: -100svh; }
-.story-chapter { position: relative; display: flex; min-height: 142svh; align-items: center; padding: 18svh clamp(1.4rem, 7vw, 7.5rem); }
+.story-chapter { position: relative; display: flex; min-height: 142svh; align-items: center; padding: 18svh clamp(1.4rem, 7vw, 7.5rem); contain: layout paint style; }
 .story-chapter:first-child { min-height: 128svh; justify-content: center; padding-top: 7svh; }
 .story-chapter:nth-child(7) { min-height: 180svh; }
 .story-chapter:nth-child(8) { min-height: 160svh; }
 .story-chapter.final-chapter { min-height: 165svh; align-items: flex-end; padding-bottom: 18svh; }
-.chapter-copy { position: relative; z-index: 4; width: min(88vw, 680px); color: #f7f4ef; text-shadow: 0 2px 18px rgba(2,5,20,.74), 0 0 42px rgba(2,5,20,.42); will-change: transform, opacity, filter; }
+.chapter-copy { position: relative; z-index: 4; width: min(88vw, 680px); color: #f7f4ef; text-shadow: 0 2px 18px rgba(2,5,20,.74), 0 0 42px rgba(2,5,20,.42); }
 .chapter-copy::before { content: ''; position: absolute; z-index: -1; inset: -2.5rem -3.5rem; pointer-events: none; background: radial-gradient(ellipse at center, rgba(3,7,25,.38), rgba(3,7,25,.16) 44%, transparent 74%); filter: blur(16px); }
 .align-left .chapter-copy { margin-right: auto; text-align: left; }
 .align-right .chapter-copy { margin-left: auto; text-align: right; }
@@ -163,8 +161,6 @@ button, input, textarea, select { font: inherit; }
   .constellation-layer { transform: scale(1.25); transform-origin: 56% 35%; }
   .owl-sprite { width: clamp(205px, 66vw, 285px); }
   .branch { left: 72%; top: 65%; width: 42vw; height: 9px; }
-  .journey-progress { right: .6rem; height: 18vh; }
-  .chapter-count { display: none; }
   .audio-toggle { top: max(.75rem, env(safe-area-inset-top)); right: max(.75rem, env(safe-area-inset-right)); padding: .58rem; }
   .audio-toggle > span:last-child { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0,0,0,0); }
   .floating-phrases > span:nth-child(2) { left: 62% !important; }

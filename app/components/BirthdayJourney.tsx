@@ -58,8 +58,6 @@ export function BirthdayJourney() {
   const mainRef = useRef<HTMLElement>(null);
   const stageRef = useRef<HTMLDivElement>(null);
   const progressRef = useRef(0);
-  const activeRef = useRef(0);
-  const [activeChapter, setActiveChapter] = useState(0);
   const [reducedMotion, setReducedMotion] = useState(false);
 
   useEffect(() => {
@@ -78,7 +76,8 @@ export function BirthdayJourney() {
 
     let lenis: Lenis | null = null;
     let lenisFrame = 0;
-    if (!reducedMotion) {
+    const coarsePointer = window.matchMedia('(pointer: coarse)').matches;
+    if (!reducedMotion && !coarsePointer) {
       lenis = new Lenis({ duration: 1.12, smoothWheel: true, wheelMultiplier: 0.82, touchMultiplier: 1.05 });
       const frame = (time: number) => {
         lenis?.raf(time);
@@ -110,11 +109,6 @@ export function BirthdayJourney() {
       stage.style.setProperty('--moon-scale', `${0.68 + smooth(0.18, 0.52, progress) * 0.46}`);
       stage.style.setProperty('--sunrise', `${smooth(0.77, 0.96, progress)}`);
       stage.style.setProperty('--haze', `${smooth(0.62, 0.9, progress)}`);
-      const nextChapter = Math.min(birthdayStory.chapters.length - 1, Math.floor(progress * birthdayStory.chapters.length));
-      if (nextChapter !== activeRef.current) {
-        activeRef.current = nextChapter;
-        setActiveChapter(nextChapter);
-      }
     };
 
     const journeyTrigger = ScrollTrigger.create({
@@ -166,8 +160,6 @@ export function BirthdayJourney() {
       </div>
 
       <div className="experience-ui">
-        <div className="journey-progress" aria-hidden="true"><i /></div>
-        <span className="chapter-count" aria-live="polite">{String(activeChapter + 1).padStart(2, '0')} / 12</span>
         <AmbientAudio labels={birthdayStory.audioLabels} />
       </div>
 

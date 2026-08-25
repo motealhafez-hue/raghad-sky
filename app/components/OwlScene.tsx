@@ -18,6 +18,8 @@ export function OwlScene({
 
   useEffect(() => {
     let animationFrame = 0;
+    let lastUpdate = 0;
+    let lastVisible = false;
     const update = (time: number) => {
       const owl = owlRef.current;
       const branch = branchRef.current;
@@ -25,8 +27,22 @@ export function OwlScene({
       const progress = progressRef.current;
       const local = clamp((progress - 0.46) / 0.235);
       const visible = progress > 0.435 && progress < 0.735;
-      owl.style.opacity = visible ? '1' : '0';
-      branch.style.opacity = progress > 0.425 && progress < 0.615 ? '1' : '0';
+      const frameInterval = visible ? (reducedMotion ? 180 : window.innerWidth < 700 ? 34 : 22) : 220;
+      if (time - lastUpdate < frameInterval) {
+        animationFrame = requestAnimationFrame(update);
+        return;
+      }
+      lastUpdate = time;
+      if (visible !== lastVisible) {
+        owl.style.opacity = visible ? '1' : '0';
+        lastVisible = visible;
+      }
+      const branchVisible = progress > 0.425 && progress < 0.615;
+      branch.style.opacity = branchVisible ? '1' : '0';
+      if (!visible && !branchVisible) {
+        animationFrame = requestAnimationFrame(update);
+        return;
+      }
 
       let frame = 0;
       let x = 73;

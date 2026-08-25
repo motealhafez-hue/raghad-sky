@@ -50,10 +50,12 @@ export function StarField({
     let stars: Star[] = [];
     let animationFrame = 0;
     let active = true;
+    let lastDraw = 0;
+    let clearedForDay = false;
 
     const makeStars = () => {
       const random = seededRandom(8241);
-      const count = width < 600 ? 105 : 178;
+      const count = width < 600 ? 76 : width < 900 ? 112 : 148;
       stars = Array.from({ length: count }, (_, index) => ({
         x: random(),
         y: random() * 0.88,
@@ -68,7 +70,7 @@ export function StarField({
     const resize = () => {
       width = window.innerWidth;
       height = window.innerHeight;
-      const dpr = Math.min(window.devicePixelRatio || 1, width < 600 ? 1.35 : 1.6);
+      const dpr = Math.min(window.devicePixelRatio || 1, width < 600 ? 1.1 : 1.4);
       canvas.width = Math.round(width * dpr);
       canvas.height = Math.round(height * dpr);
       canvas.style.width = `${width}px`;
@@ -84,8 +86,23 @@ export function StarField({
 
     const draw = (time: number) => {
       if (!active) return;
-      context.clearRect(0, 0, width, height);
       const progress = progressRef.current;
+      const frameInterval = progress > 0.965 ? 240 : reducedMotion ? 140 : width < 700 ? 34 : 22;
+      if (time - lastDraw < frameInterval) {
+        animationFrame = requestAnimationFrame(draw);
+        return;
+      }
+      lastDraw = time;
+      if (progress > 0.965) {
+        if (!clearedForDay) {
+          context.clearRect(0, 0, width, height);
+          clearedForDay = true;
+        }
+        animationFrame = requestAnimationFrame(draw);
+        return;
+      }
+      clearedForDay = false;
+      context.clearRect(0, 0, width, height);
       const dawnFade = 1 - smooth(0.68, 0.94, progress);
       const pointer = reducedMotion ? { x: 0, y: 0 } : pointerRef.current;
 
