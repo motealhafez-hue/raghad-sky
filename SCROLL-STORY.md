@@ -1,34 +1,37 @@
-# خريطة التمرير — A Sky for Raghad
+# A Sky for Raghad — scroll and animation record
 
-هذا الملف يشرح ماذا يحدث بصريًا في كل مرحلة من التمرير، وما الكلمات الإنجليزية والعربية التي تظهر معها. النصوص القابلة للتعديل موجودة في `app/content/story.ts`، بينما توقيت الحركة العام موجود في `app/components/BirthdayJourney.tsx`.
+The journey uses the measured center of every actual chapter as a semantic anchor. Longer text changes physical pacing without shifting a chapter’s intended atmosphere. Native scrolling drives one batched update; GSAP/ScrollTrigger scrubs chapter copy.
 
-> النسب أدناه تقريبية لأنها تتكيّف مع طول الشاشة والجهاز. كل فصل يظل واضحًا حتى يغادر الشاشة طبيعيًا؛ لا توجد حركة إخفاء مبكرة.
+| Slide | Scroll stage | Sky and scene | Owl and branch | Visible words |
+| --- | --- | --- | --- | --- |
+| 1 | Twilight / 0% | Twilight gradient; first deterministic stars begin revealing. | Hidden. | Name, two opening lines, scroll cue. |
+| 2 | Early night / ~9% | Stars deepen; moon begins its curved rise. | Hidden. | “Quiet beginnings” copy. |
+| 3 | Night waking / ~18% | Night palette strengthens; moon rises. | Hidden. | “The exception” copy. |
+| 4 | Constellations / ~27% | Constellation lines draw with scroll; star depth increases. | Hidden. | “What the sky remembers” copy. |
+| 5 | Moonlit night / ~36% | Moon reaches its clearest presence. | Hidden. | “Through my eyes” copy. |
+| 6 | Kept words / ~45% | Floating words move only as scroll progress changes. | Branch enters; owl approaches its perched pose. | “The words you kept” plus three floating phrases. |
+| 7 | Messenger / ~55% | Deep night remains stable around the action. | Perched frames, crouch, wing spread, push-off, and flight frames are derived only from scroll. Feet align to the upper branch surface before takeoff. | “A messenger” copy. |
+| 8 | To strive / ~64% | Constellations soften; the visual holds around the verse. | Scroll-driven flight continues and exits; branch flex reverses naturally with reverse scrolling. | English lead and the Arabic verse only. |
+| 9 | Turning / ~73% | Dawn begins; stars fade in staggered order. | Hidden after departure. | “What changes us” copy. |
+| 10 | Last light / ~82% | Horizon bloom grows; moon softens. | Hidden. | “A little longer” copy. |
+| 11 | Morning / ~91% | Sky crosses into sunrise and daylight. | Hidden. | “Morning” copy. |
+| 12 | Day / 100% | Bright daylight, haze, sun glow, and stable page background. | Hidden. | Final birthday message, heart, and `Angel without wings?`. |
 
-| الفصل | نطاق الرحلة التقريبي | ماذا يفعل التمرير | النص الإنجليزي | النص العربي |
-|---|---:|---|---|---|
-| 1. Last light | 0–8% | يبدأ المشهد مباشرة في سماء ما بعد الغروب. يظهر اسم رغد، وتبقى بضع نجوم خافتة مع دعوة بسيطة للتمرير. | **Raghad** — “I made a little sky for you.” | **رغد** — «صنعتُ لكِ سماءً صغيرة.» |
-| 2. The first stars | 8–16% | تخفت آخر إضاءة للمساء وتظهر النجوم بالتدريج، كل نجمة بتوقيت مختلف. | “It always starts quietly.” — “One small light. One word. One conversation.” | «دائمًا ما تبدأ الأشياء الجميلة بهدوء.» — «ضوءٌ صغير. كلمة. حديثٌ واحد.» |
-| 3. The sky wakes | 16–24% | يزداد عمق السماء وعدد النجوم، وتتحرك طبقات النجوم ببطء لإعطاء إحساس بالمسافة. | “Somewhere between ordinary days…” — “you stopped feeling ordinary to me.” | «في مكانٍ ما بين الأيام العادية…» — «لم تعودي عاديةً في عيني.» |
-| 4. What the stars remember | 24–32% | تبدأ الخطوط الفضية الرفيعة بالرسم بين النجوم، وتتكوّن كوكبتان تدريجيًا. | “Some people leave memories.” — “You left a whole constellation.” | «بعض الناس يتركون ذكريات.» — «وأنتِ تركتِ كوكبةً كاملة.» |
-| 5. Moonrise | 32–40% | يرتفع القمر ويتحرك عبر السماء ويزداد وهجه مع دخول الليل العميق. | “And then there were the nights.” — “The long ones. The random ones. The ones that mattered.” | «ثم جاءت الليالي.» — «الطويلة، والعفوية، وتلك التي كان لها معنى.» |
-| 6. Words in the sky | 40–47% | تظهر كلمات صغيرة عائمة قرب النجوم، بينما يبقى القمر جزءًا من التكوين. | “The sky kept the little things.” — “A laugh. A pause. A familiar hello.” | «احتفظت السماء بالتفاصيل الصغيرة.» — «ضحكة. لحظة صمت. وتحية مألوفة.» |
-| 7. A messenger | 47–59% | تظهر البومة كاملة فوق فرع قصير. ترمش وتحرّك رأسها، ثم تنتبه، تنخفض استعدادًا، تفتح جناحيها وتدفع نفسها من الفرع. | “For a moment, even the night held its breath.” — “Then something beautiful found its wings.” | «للحظة، حبس الليل أنفاسه.» — «ثم وجد شيءٌ جميل جناحيه.» |
-| 8. The heart of night | 59–68% | تطير البومة بجناحين كاملين في مسار منحني أمام النجوم، ثم يهدأ المشهد في أعمق نقطة من الليل. | “Not every important thing arrives loudly.” — “Some simply stay—and make the dark feel warm.” | «ليست كل الأشياء المهمة تأتي بصخب.» — «بعضها يبقى ببساطة… ويجعل العتمة دافئة.» |
-| 9. The turning | 68–76% | يبدأ لون الأفق بالتغيّر تدريجيًا من الكحلي إلى النيلي، ويخف وهج القمر بهدوء. | “The sky changes slowly.” — “So slowly you barely notice—until everything looks different.” | «تتغير السماء ببطء.» — «ببطءٍ لا نكاد نلحظه… حتى يبدو كل شيء مختلفًا.» |
-| 10. The last stars | 76–84% | تتلاشى النجوم على دفعات بدل أن تختفي دفعة واحدة، وتبقى نجمة أخيرة مدة أطول. | “Most lights faded with the night.” — “One stayed a little longer.” | «تلاشت معظم الأضواء مع الليل.» — «وبقي ضوءٌ واحد قليلًا أطول.» |
-| 11. Morning | 84–92% | يدخل الخزامى والخوخي والذهبي إلى السماء، ويرتفع ضوء الشمس من الأفق قبل ظهور قرص الشمس. | “Morning came.” — “Not because the night was not beautiful—but because there is beauty in what comes next.” | «وجاء الصباح.» — «ليس لأن الليل لم يكن جميلًا… بل لأن فيما يأتي جمالًا أيضًا.» |
-| 12. For you | 92–100% | يكتمل ضوء النهار وتظهر رسالة عيد الميلاد النهائية فوق أفق دافئ. | **Happy Birthday, Raghad** — “May this new year of your life feel open and luminous…” | **عيد ميلاد سعيد يا رغد** — «أتمنى أن تكون سنتك الجديدة رحبةً ومضيئة…» |
+## Motion invariants
 
-## عناصر مستمرة خلال الرحلة
+- Owl position, scale, rotation, body pose, wing pose, and atlas frame are pure functions of semantic scroll progress.
+- Stopping the scroll freezes the exact transform and the exact wing/frame state. No owl animation loop or timer exists.
+- Reverse scrolling reverses every owl and branch state deterministically.
+- The owl canvas redraws only when its frame or rendered size changes.
+- Text entry, reading hold, and exit are scrubbed by ScrollTrigger; they never finish on an elapsed-time tween after scrolling stops.
+- Shooting stars use short scroll ranges, not wall-clock time.
+- Only subtle star twinkle uses a lightweight loop; it pauses in a hidden tab and stops after daylight.
+- Reduced motion removes continuous twinkle, pointer parallax, rapid owl frame changes, and text motion while preserving all copy.
 
-- **السماء:** أربع طبقات لونية تتداخل من الغروب إلى الليل ثم الفجر والنهار.
-- **النجوم:** تتحرك بعمق خفيف وتظهر وتختفي حسب تقدم الرحلة؛ يتوقف رسمها بعد اكتمال النهار لتخفيف استهلاك الجهاز.
-- **القمر:** يتبع مسارًا منحنيًا مرتبطًا بالتمرير، ثم يخف تدريجيًا قبل الشروق.
-- **البومة:** تعمل فقط داخل فصلها، وتخف تحديثاتها خارج المشهد لتقليل استهلاك المعالج.
-- **الصوت:** لا يعمل تلقائيًا؛ يبدأ فقط عند الضغط على زر الصوت.
-- **الجوال:** يستخدم التمرير الطبيعي للجهاز بدل التمرير الاصطناعي للحصول على استجابة أسرع وأثبت.
-- **تقليل الحركة:** عند تفعيل إعداد Reduce Motion تختفي الحركات المستمرة وتبقى انتقالات هادئة وواضحة.
+## Readiness and fallbacks
 
-## تعديل الكلمات
-
-لتغيير الاسم أو أي جملة، عدّل القيم داخل `birthdayStory` في `app/content/story.ts`. لا حاجة لتعديل ملفات الحركة. حافظ على كل سطر إنجليزي مقابل السطر العربي الموجود معه حتى يبقى توقيت الفصل متطابقًا.
+- Scrolling remains locked behind a silent readiness screen until one owl atlas format has decoded.
+- Atlas order: `owl-atlas-v5.avif` → `owl-atlas-v5.webp` → `owl-atlas-v5.png`.
+- The selected image object decodes once and stays in memory for all 16 canvas frames.
+- Required local WOFF2 fonts are given at most 1500 ms. If they miss that budget, CSS variables lock to the session fallbacks, so no late font swap can move the story.
+- Sound remains off until the visitor presses `Play the sky`.

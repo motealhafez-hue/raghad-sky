@@ -79,7 +79,7 @@ export function AmbientAudio({ labels }: { labels: { play: string; pause: string
       <span className={playing ? 'sound-bars is-playing' : 'sound-bars'} aria-hidden="true">
         <i /><i /><i />
       </span>
-      <span>{playing ? 'Sound on' : 'Sound off'}</span>
+      <span>{playing ? labels.pause : labels.play}</span>
     </button>
   );
 }

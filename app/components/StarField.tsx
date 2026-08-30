@@ -1,7 +1,6 @@
 'use client';
 
-import { useEffect, useRef } from 'react';
-import type { MutableRefObject } from 'react';
+import { forwardRef, useEffect, useImperativeHandle, useRef } from 'react';
 
 type Star = {
   x: number;
@@ -11,6 +10,10 @@ type Star = {
   phase: number;
   reveal: number;
   linger: number;
+};
+
+export type StarFieldHandle = {
+  update: (progress: number) => void;
 };
 
 const clamp = (value: number, min = 0, max = 1) => Math.min(max, Math.max(min, value));
@@ -23,21 +26,25 @@ function seededRandom(seed = 1977) {
   return () => {
     seed |= 0;
     seed = (seed + 0x6d2b79f5) | 0;
-    let t = Math.imul(seed ^ (seed >>> 15), 1 | seed);
-    t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
-    return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+    let value = Math.imul(seed ^ (seed >>> 15), 1 | seed);
+    value = (value + Math.imul(value ^ (value >>> 7), 61 | value)) ^ value;
+    return ((value ^ (value >>> 14)) >>> 0) / 4294967296;
   };
 }
 
-export function StarField({
-  progressRef,
-  reducedMotion,
-}: {
-  progressRef: MutableRefObject<number>;
-  reducedMotion: boolean;
-}) {
+export const StarField = forwardRef<StarFieldHandle, { reducedMotion: boolean }>(function StarField(
+  { reducedMotion },
+  forwardedRef,
+) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const pointerRef = useRef({ x: 0, y: 0 });
+  const progressRef = useRef(0);
+  const updateRef = useRef<(progress: number) => void>(() => undefined);
+
+  useImperativeHandle(forwardedRef, () => ({
+    update(progress: number) {
+      updateRef.current(progress);
+    },
+  }), []);
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -49,13 +56,14 @@ export function StarField({
     let height = 0;
     let stars: Star[] = [];
     let animationFrame = 0;
-    let active = true;
     let lastDraw = 0;
-    let clearedForDay = false;
+    let hidden = document.hidden;
+    const pointer = { x: 0, y: 0 };
+    const coarsePointer = window.matchMedia('(pointer: coarse)').matches;
 
     const makeStars = () => {
       const random = seededRandom(8241);
-      const count = width < 600 ? 76 : width < 900 ? 112 : 148;
+      const count = width < 600 ? 72 : width < 900 ? 104 : 142;
       stars = Array.from({ length: count }, (_, index) => ({
         x: random(),
         y: random() * 0.88,
@@ -79,54 +87,52 @@ export function StarField({
       makeStars();
     };
 
-    const onPointerMove = (event: PointerEvent) => {
-      pointerRef.current.x = event.clientX / width - 0.5;
-      pointerRef.current.y = event.clientY / height - 0.5;
+    const drawShootingStar = (progress: number) => {
+      const bursts = [[0.235, 0.252], [0.515, 0.532]];
+      const active = bursts.find(([start, end]) => progress >= start && progress <= end);
+      if (!active || reducedMotion) return;
+      const t = (progress - active[0]) / (active[1] - active[0]);
+      const x = width * (0.82 - t * 0.34);
+      const y = height * (0.14 + t * 0.2);
+      const trail = context.createLinearGradient(x, y, x + 115, y - 66);
+      trail.addColorStop(0, 'rgba(255,255,255,.82)');
+      trail.addColorStop(1, 'rgba(255,255,255,0)');
+      context.strokeStyle = trail;
+      context.lineWidth = 1;
+      context.beginPath();
+      context.moveTo(x, y);
+      context.lineTo(x + 115, y - 66);
+      context.stroke();
     };
 
     const draw = (time: number) => {
-      if (!active) return;
       const progress = progressRef.current;
-      const frameInterval = progress > 0.965 ? 240 : reducedMotion ? 140 : width < 700 ? 34 : 22;
-      if (time - lastDraw < frameInterval) {
-        animationFrame = requestAnimationFrame(draw);
-        return;
-      }
-      lastDraw = time;
-      if (progress > 0.965) {
-        if (!clearedForDay) {
-          context.clearRect(0, 0, width, height);
-          clearedForDay = true;
-        }
-        animationFrame = requestAnimationFrame(draw);
-        return;
-      }
-      clearedForDay = false;
       context.clearRect(0, 0, width, height);
-      const dawnFade = 1 - smooth(0.68, 0.94, progress);
-      const pointer = reducedMotion ? { x: 0, y: 0 } : pointerRef.current;
+      canvas.dataset.progress = progress.toFixed(5);
+      if (progress > 0.965) return;
 
+      const dawnFade = 1 - smooth(0.68, 0.94, progress);
       stars.forEach((star, index) => {
         const reveal = smooth(star.reveal, star.reveal + 0.065, progress);
         const linger = 1 - smooth(star.linger, Math.min(0.98, star.linger + 0.12), progress);
-        const twinkle = reducedMotion ? 0.83 : 0.62 + Math.sin(time * (0.00045 + star.depth * 0.00055) + star.phase) * 0.28;
+        const twinkle = reducedMotion ? 0.84 : 0.66 + Math.sin(time * (0.00035 + star.depth * 0.00045) + star.phase) * 0.22;
         const alpha = clamp(reveal * linger * dawnFade * twinkle);
         if (alpha < 0.015) return;
-        const driftX = pointer.x * star.depth * 13;
-        const driftY = pointer.y * star.depth * 9;
+        const driftX = reducedMotion || coarsePointer ? 0 : pointer.x * star.depth * 11;
+        const driftY = reducedMotion || coarsePointer ? 0 : pointer.y * star.depth * 8;
         const x = star.x * width + driftX;
         const y = star.y * height + driftY;
         const radius = star.radius * (0.75 + star.depth * 0.45);
-        const glow = context.createRadialGradient(x, y, 0, x, y, radius * 5.5);
+        const glow = context.createRadialGradient(x, y, 0, x, y, radius * 5.2);
         glow.addColorStop(0, `rgba(255,255,255,${alpha})`);
         glow.addColorStop(0.18, `rgba(223,227,255,${alpha * 0.72})`);
         glow.addColorStop(1, 'rgba(190,198,255,0)');
         context.fillStyle = glow;
         context.beginPath();
-        context.arc(x, y, radius * 5.5, 0, Math.PI * 2);
+        context.arc(x, y, radius * 5.2, 0, Math.PI * 2);
         context.fill();
         if (index % 41 === 0 && alpha > 0.35) {
-          context.strokeStyle = `rgba(255,255,255,${alpha * 0.42})`;
+          context.strokeStyle = `rgba(255,255,255,${alpha * 0.4})`;
           context.lineWidth = 0.45;
           context.beginPath();
           context.moveTo(x - radius * 4, y);
@@ -136,47 +142,68 @@ export function StarField({
           context.stroke();
         }
       });
-
-      if (!reducedMotion && progress > 0.18 && progress < 0.7) {
-        const cycle = (time % 15000) / 15000;
-        if (cycle > 0.74 && cycle < 0.83) {
-          const t = (cycle - 0.74) / 0.09;
-          const x = width * (0.82 - t * 0.34);
-          const y = height * (0.14 + t * 0.2);
-          const trail = context.createLinearGradient(x, y, x + 115, y - 66);
-          trail.addColorStop(0, 'rgba(255,255,255,.85)');
-          trail.addColorStop(1, 'rgba(255,255,255,0)');
-          context.strokeStyle = trail;
-          context.lineWidth = 1;
-          context.beginPath();
-          context.moveTo(x, y);
-          context.lineTo(x + 115, y - 66);
-          context.stroke();
-        }
-      }
-
-      animationFrame = requestAnimationFrame(draw);
+      drawShootingStar(progress);
     };
 
+    const tick = (time: number) => {
+      animationFrame = 0;
+      if (hidden || reducedMotion || progressRef.current > 0.965) return;
+      const interval = width < 700 ? 38 : 26;
+      if (time - lastDraw >= interval) {
+        draw(time);
+        lastDraw = time;
+      }
+      animationFrame = requestAnimationFrame(tick);
+    };
+
+    const startLoop = () => {
+      if (!animationFrame && !hidden && !reducedMotion && progressRef.current <= 0.965) {
+        animationFrame = requestAnimationFrame(tick);
+      }
+    };
+
+    updateRef.current = (progress: number) => {
+      progressRef.current = progress;
+      if (reducedMotion || progress > 0.965) draw(0);
+      else startLoop();
+    };
+
+    const onPointerMove = (event: PointerEvent) => {
+      if (coarsePointer || reducedMotion || !width || !height) return;
+      pointer.x = event.clientX / width - 0.5;
+      pointer.y = event.clientY / height - 0.5;
+    };
+    const onResize = () => {
+      resize();
+      draw(reducedMotion ? 0 : performance.now());
+      startLoop();
+    };
     const onVisibility = () => {
-      active = !document.hidden;
-      if (active) animationFrame = requestAnimationFrame(draw);
+      hidden = document.hidden;
+      if (hidden) {
+        cancelAnimationFrame(animationFrame);
+        animationFrame = 0;
+      } else {
+        draw(reducedMotion ? 0 : performance.now());
+        startLoop();
+      }
     };
 
     resize();
-    window.addEventListener('resize', resize);
+    draw(0);
+    startLoop();
+    window.addEventListener('resize', onResize, { passive: true });
     window.addEventListener('pointermove', onPointerMove, { passive: true });
     document.addEventListener('visibilitychange', onVisibility);
-    animationFrame = requestAnimationFrame(draw);
 
     return () => {
-      active = false;
       cancelAnimationFrame(animationFrame);
-      window.removeEventListener('resize', resize);
+      updateRef.current = () => undefined;
+      window.removeEventListener('resize', onResize);
       window.removeEventListener('pointermove', onPointerMove);
       document.removeEventListener('visibilitychange', onVisibility);
     };
-  }, [progressRef, reducedMotion]);
+  }, [reducedMotion]);
 
   return <canvas ref={canvasRef} className="star-canvas" aria-hidden="true" />;
-}
+});

@@ -1,250 +1,149 @@
-# سجل النصوص الكامل — A Sky for Raghad
+# A Sky for Raghad — final content record
 
-هذا السجل يطابق النص الظاهر حاليًا في الموقع، مرتّبًا حسب السلايد/مرحلة التمرير.
+This record matches the visible production copy. The editable source is `app/content/story.ts`.
 
-## السلايد 1 — Last light
+## Slide 1 — 01 · A sky with your name
 
-**رقم وعنوان السلايد**
+**Name**
 
-`01 · Last light`
+`Raghad`
 
-**الاسم**
+**Text**
 
-- English: `Raghad`
-- العربية: `رغد`
+`I could have made you a birthday card.`
 
-**النص**
+`But somehow, a little sky felt more like you.`
 
-- English: `I made a little sky for you.`
-- العربية: `صنعتُ لكِ سماءً صغيرة.`
+**Scroll cue**
 
-**إشارة التمرير**
+`There is more up there`
 
-`Follow the sky · اتبعي السماء`
+## Slide 2 — 02 · Quiet beginnings
 
----
+`The strange thing about important moments is that they rarely announce themselves.`
 
-## السلايد 2 — The first stars
+`Sometimes they begin with an ordinary day—and a person you do not yet know you will remember.`
 
-**رقم وعنوان السلايد**
+## Slide 3 — 03 · The exception
 
-`02 · The first stars`
+`Then, quietly, ordinary stopped being the right word.`
 
-**English**
+`Some people do not change the rules.`
 
-1. `It always starts quietly.`
-2. `One small light. One word. One conversation.`
+`They simply become the exception you never planned for.`
 
-**العربية**
+## Slide 4 — 04 · What the sky remembers
 
-1. `دائمًا ما تبدأ الأشياء الجميلة بهدوء.`
-2. `ضوءٌ صغير. كلمة. حديثٌ واحد.`
+`The sky remembers details.`
 
----
+`A favorite color. A familiar moon. An owl in the quiet. A place you have never stopped loving.`
 
-## السلايد 3 — The sky wakes
+`Small things, perhaps.`
 
-**رقم وعنوان السلايد**
+`But somehow, they became part of the way I remember you.`
 
-`03 · The sky wakes`
+## Slide 5 — 05 · Through my eyes
 
-**English**
+`You once told me something I never forgot:`
 
-1. `Somewhere between ordinary days…`
-2. `you stopped feeling ordinary to me.`
+`“I like who I am through your eyes.”`
 
-**العربية**
+`I hope you know this—`
 
-1. `في مكانٍ ما بين الأيام العادية…`
-2. `لم تعودي عاديةً في عيني.`
+`my eyes never invented the beautiful things they saw in you.`
 
----
+## Slide 6 — 06 · The words you kept
 
-## السلايد 4 — What the stars remember
+`Some words are read and forgotten.`
 
-**رقم وعنوان السلايد**
+`Some deserve a little star beside them.`
 
-`04 · What the stars remember`
+`And when there was no star…`
 
-**English**
+`you kept a few anyway.`
 
-1. `Some people leave memories.`
-2. `You left a whole constellation.`
+**Floating words**
 
-**العربية**
+- `worth keeping`
+- `still remembered`
+- `a quiet light`
 
-1. `بعض الناس يتركون ذكريات.`
-2. `وأنتِ تركتِ كوكبةً كاملة.`
+## Slide 7 — 07 · A messenger
 
----
+`Somewhere in the quiet of the night, a small messenger took flight.`
 
-## السلايد 5 — Moonrise
+`Carrying no grand words.`
 
-**رقم وعنوان السلايد**
+`Only a little piece of this sky, meant to find its way to you.`
 
-`05 · Moonrise`
+## Slide 8 — 08 · To strive
 
-**English**
+`Some words become more than words.`
 
-1. `And then there were the nights.`
-2. `The long ones. The random ones. The ones that mattered.`
+`They become a way of walking through life.`
 
-**العربية**
+**Verse — RTL**
 
-1. `ثم جاءت الليالي.`
-2. `الطويلة، والعفوية، وتلك التي كان لها معنى.`
+`﴿ وَأَن لَّيْسَ لِلْإِنسَانِ إِلَّا مَا سَعَىٰ ۝ وَأَنَّ سَعْيَهُ سَوْفَ يُرَىٰ ﴾`
 
----
+There is no commentary after the verse.
 
-## السلايد 6 — Words in the sky
+## Slide 9 — 09 · What changes us
 
-**رقم وعنوان السلايد**
+`Some people enter our lives and confirm what we already believed.`
 
-`06 · Words in the sky`
+`Others make us look again.`
 
-**English**
+`Perhaps the rarest ones do a little of both.`
 
-1. `The sky kept the little things.`
-2. `A laugh. A pause. A familiar hello.`
+## Slide 10 — 10 · A little longer
 
-**العربية**
+`Not every beautiful thing has to arrive all at once.`
 
-1. `احتفظت السماء بالتفاصيل الصغيرة.`
-2. `ضحكة. لحظة صمت. وتحية مألوفة.`
+`Some things are worth the distance, the patience, and the time.`
 
-**الكلمات العائمة في السماء**
+`The sky knows how to wait.`
 
-1. `still here` — `ما زالت هنا`
-2. `a quiet glow` — `وهجٌ هادئ`
-3. `remember this` — `تذكّري هذا`
+## Slide 11 — 11 · Morning
 
----
+`And then morning comes.`
 
-## السلايد 7 — A messenger
+`I hope this year gives back to you some of the care you so naturally give to everyone else.`
 
-**رقم وعنوان السلايد**
+`Rest when you are tired. Laugh from your heart. Chase what matters to you.`
 
-`07 · A messenger`
+`And every once in a while, choose yourself too.`
 
-**English**
+## Slide 12 — 12 · For Raghad
 
-1. `For a moment, even the night held its breath.`
-2. `Then something beautiful found its wings.`
-
-**العربية**
-
-1. `للحظة، حبس الليل أنفاسه.`
-2. `ثم وجد شيءٌ جميل جناحيه.`
-
----
-
-## السلايد 8 — The heart of night
-
-**رقم وعنوان السلايد**
-
-`08 · The heart of night`
-
-**English**
-
-1. `Not every important thing arrives loudly.`
-2. `Some simply stay—and make the dark feel warm.`
-
-**العربية**
-
-1. `ليست كل الأشياء المهمة تأتي بصخب.`
-2. `بعضها يبقى ببساطة… ويجعل العتمة دافئة.`
-
----
-
-## السلايد 9 — The turning
-
-**رقم وعنوان السلايد**
-
-`09 · The turning`
-
-**English**
-
-1. `The sky changes slowly.`
-2. `So slowly you barely notice—until everything looks different.`
-
-**العربية**
-
-1. `تتغير السماء ببطء.`
-2. `ببطءٍ لا نكاد نلحظه… حتى يبدو كل شيء مختلفًا.`
-
----
-
-## السلايد 10 — The last stars
-
-**رقم وعنوان السلايد**
-
-`10 · The last stars`
-
-**English**
-
-1. `Most lights faded with the night.`
-2. `One stayed a little longer.`
-
-**العربية**
-
-1. `تلاشت معظم الأضواء مع الليل.`
-2. `وبقي ضوءٌ واحد قليلًا أطول.`
-
----
-
-## السلايد 11 — Morning
-
-**رقم وعنوان السلايد**
-
-`11 · Morning`
-
-**English**
-
-1. `Morning came.`
-2. `Not because the night was not beautiful—but because there is beauty in what comes next.`
-
-**العربية**
-
-1. `وجاء الصباح.`
-2. `ليس لأن الليل لم يكن جميلًا… بل لأن فيما يأتي جمالًا أيضًا.`
-
----
-
-## السلايد 12 — For you
-
-**رقم وعنوان السلايد**
-
-`12 · For you`
-
-**السطر التمهيدي**
+**Intro line**
 
 `For every beautiful morning ahead`
 
-**العنوان النهائي**
+**Final title**
 
-- English: `Happy Birthday, Raghad`
-- العربية: `عيد ميلاد سعيد يا رغد`
+`Happy Birthday, Raghad`
 
-**الرسالة الإنجليزية الكاملة**
+**Final message**
 
-`May this new year of your life feel open and luminous—full of gentle surprises, brave beginnings, and people who see the rare light you carry. You deserve mornings that feel hopeful, nights that feel safe, and a thousand reasons to smile in between.`
+`I hope this year brings you closer to every life you have quietly imagined for yourself.`
 
-**الرسالة العربية الكاملة**
+`May you keep the principles that made you who you are, recognize the exceptions worth making room for, and never lose the part of you that believes in striving—even when the road is long.`
 
-`أتمنى أن تكون سنتك الجديدة رحبةً ومضيئة، مليئة بالمفاجآت الجميلة والبدايات الشجاعة وبأشخاص يرون النور النادر الذي تحملينه. تستحقين صباحاتٍ تبعث الأمل، وليالي تمنح الأمان، وألف سبب للابتسام بينهما.`
+`I hope you find peace in what you choose, courage in what you pursue, and people beside you who make you feel safe, understood, respected, and completely yourself.`
 
----
+`And whenever you forget the light you carry, I hope life finds a gentle way to remind you.`
 
-## نصوص ثابتة في واجهة الموقع
+`Happy Birthday, Raghad.`
 
-**زر تشغيل الصوت**
+`May every morning ahead be kinder than the one before it.`
 
-`Play the sky · شغّلي صوت السماء`
+**Ending interaction**
 
-**زر إيقاف الصوت**
+- Heart: outline by default; red only while liked.
+- Text: `Angel without wings?`
 
-`Quiet the sky · أوقفي صوت السماء`
+## Static interface copy
 
-## مرجع التعديل
-
-النصوص الأصلية القابلة للتعديل موجودة في `app/content/story.ts`.
+- Audio off: `Play the sky`
+- Audio on: `Quiet the sky`

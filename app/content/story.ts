@@ -1,6 +1,11 @@
+export type StoryBlock = {
+  lines: string[];
+  gapBefore?: boolean;
+  tone?: 'lead' | 'body' | 'verse';
+};
+
 export type FloatingPhrase = {
-  english: string;
-  arabic: string;
+  text: string;
   x: number;
   y: number;
 };
@@ -8,133 +13,244 @@ export type FloatingPhrase = {
 export type ChapterContent = {
   id: string;
   eyebrow: string;
-  english: string[];
-  arabic: string[];
+  blocks: StoryBlock[];
   align: 'left' | 'center' | 'right';
   floating?: FloatingPhrase[];
+  length?: 'standard' | 'long' | 'extra-long';
   final?: boolean;
 };
 
 export type BirthdayStoryContent = {
-  nameLatin: string;
-  nameArabic: string;
-  optionalDate?: string;
-  openingInvitation: { english: string; arabic: string };
+  name: string;
+  openingLines: string[];
+  scrollCue: string;
   chapters: ChapterContent[];
-  finalHeading: { english: string; arabic: string };
-  finalMessage: { english: string; arabic: string };
+  finalIntro: string;
+  finalHeading: string;
+  finalParagraphs: string[][];
   audioLabels: { play: string; pause: string };
 };
 
 export const birthdayStory: BirthdayStoryContent = {
-  nameLatin: 'Raghad',
-  nameArabic: 'رغد',
-  openingInvitation: {
-    english: 'I made a little sky for you.',
-    arabic: 'صنعتُ لكِ سماءً صغيرة.',
-  },
+  name: 'Raghad',
+  openingLines: [
+    'I could have made you a birthday card.',
+    'But somehow, a little sky felt more like you.',
+  ],
+  scrollCue: 'There is more up there',
   chapters: [
     {
-      id: 'last-light',
-      eyebrow: '01 · Last light',
-      english: ['Raghad', 'I made a little sky for you.'],
-      arabic: ['رغد', 'صنعتُ لكِ سماءً صغيرة.'],
+      id: 'named-sky',
+      eyebrow: '01 · A sky with your name',
+      blocks: [],
       align: 'center',
     },
     {
-      id: 'first-stars',
-      eyebrow: '02 · The first stars',
-      english: ['It always starts quietly.', 'One small light. One word. One conversation.'],
-      arabic: ['دائمًا ما تبدأ الأشياء الجميلة بهدوء.', 'ضوءٌ صغير. كلمة. حديثٌ واحد.'],
+      id: 'quiet-beginnings',
+      eyebrow: '02 · Quiet beginnings',
+      blocks: [{
+        lines: [
+          'The strange thing about important moments is that they rarely announce themselves.',
+          'Sometimes they begin with an ordinary day—and a person you do not yet know you will remember.',
+        ],
+        tone: 'lead',
+      }],
       align: 'left',
+      length: 'long',
     },
     {
-      id: 'sky-wakes',
-      eyebrow: '03 · The sky wakes',
-      english: ['Somewhere between ordinary days…', 'you stopped feeling ordinary to me.'],
-      arabic: ['في مكانٍ ما بين الأيام العادية…', 'لم تعودي عاديةً في عيني.'],
+      id: 'the-exception',
+      eyebrow: '03 · The exception',
+      blocks: [{
+        lines: [
+          'Then, quietly, ordinary stopped being the right word.',
+          'Some people do not change the rules.',
+          'They simply become the exception you never planned for.',
+        ],
+        tone: 'lead',
+      }],
       align: 'right',
+      length: 'long',
     },
     {
-      id: 'constellations',
-      eyebrow: '04 · What the stars remember',
-      english: ['Some people leave memories.', 'You left a whole constellation.'],
-      arabic: ['بعض الناس يتركون ذكريات.', 'وأنتِ تركتِ كوكبةً كاملة.'],
+      id: 'sky-remembers',
+      eyebrow: '04 · What the sky remembers',
+      blocks: [
+        {
+          lines: [
+            'The sky remembers details.',
+            'A favorite color. A familiar moon. An owl in the quiet. A place you have never stopped loving.',
+          ],
+          tone: 'lead',
+        },
+        {
+          lines: [
+            'Small things, perhaps.',
+            'But somehow, they became part of the way I remember you.',
+          ],
+          gapBefore: true,
+        },
+      ],
       align: 'center',
+      length: 'extra-long',
     },
     {
-      id: 'moonrise',
-      eyebrow: '05 · Moonrise',
-      english: ['And then there were the nights.', 'The long ones. The random ones. The ones that mattered.'],
-      arabic: ['ثم جاءت الليالي.', 'الطويلة، والعفوية، وتلك التي كان لها معنى.'],
+      id: 'through-my-eyes',
+      eyebrow: '05 · Through my eyes',
+      blocks: [
+        {
+          lines: [
+            'You once told me something I never forgot:',
+            '“I like who I am through your eyes.”',
+          ],
+          tone: 'lead',
+        },
+        {
+          lines: [
+            'I hope you know this—',
+            'my eyes never invented the beautiful things they saw in you.',
+          ],
+          gapBefore: true,
+        },
+      ],
       align: 'left',
+      length: 'extra-long',
     },
     {
-      id: 'words-in-the-sky',
-      eyebrow: '06 · Words in the sky',
-      english: ['The sky kept the little things.', 'A laugh. A pause. A familiar hello.'],
-      arabic: ['احتفظت السماء بالتفاصيل الصغيرة.', 'ضحكة. لحظة صمت. وتحية مألوفة.'],
+      id: 'words-you-kept',
+      eyebrow: '06 · The words you kept',
+      blocks: [
+        {
+          lines: [
+            'Some words are read and forgotten.',
+            'Some deserve a little star beside them.',
+          ],
+          tone: 'lead',
+        },
+        {
+          lines: [
+            'And when there was no star…',
+            'you kept a few anyway.',
+          ],
+          gapBefore: true,
+        },
+      ],
       align: 'right',
+      length: 'long',
       floating: [
-        { english: 'still here', arabic: 'ما زالت هنا', x: 15, y: 24 },
-        { english: 'a quiet glow', arabic: 'وهجٌ هادئ', x: 73, y: 67 },
-        { english: 'remember this', arabic: 'تذكّري هذا', x: 68, y: 19 },
+        { text: 'worth keeping', x: 15, y: 24 },
+        { text: 'still remembered', x: 73, y: 67 },
+        { text: 'a quiet light', x: 68, y: 19 },
       ],
     },
     {
       id: 'the-owl',
       eyebrow: '07 · A messenger',
-      english: ['For a moment, even the night held its breath.', 'Then something beautiful found its wings.'],
-      arabic: ['للحظة، حبس الليل أنفاسه.', 'ثم وجد شيءٌ جميل جناحيه.'],
+      blocks: [
+        {
+          lines: ['Somewhere in the quiet of the night, a small messenger took flight.'],
+          tone: 'lead',
+        },
+        {
+          lines: [
+            'Carrying no grand words.',
+            'Only a little piece of this sky, meant to find its way to you.',
+          ],
+          gapBefore: true,
+        },
+      ],
       align: 'left',
+      length: 'long',
     },
     {
-      id: 'midnight',
-      eyebrow: '08 · The heart of night',
-      english: ['Not every important thing arrives loudly.', 'Some simply stay—and make the dark feel warm.'],
-      arabic: ['ليست كل الأشياء المهمة تأتي بصخب.', 'بعضها يبقى ببساطة… ويجعل العتمة دافئة.'],
+      id: 'to-strive',
+      eyebrow: '08 · To strive',
+      blocks: [
+        {
+          lines: [
+            'Some words become more than words.',
+            'They become a way of walking through life.',
+          ],
+          tone: 'lead',
+        },
+        {
+          lines: ['﴿ وَأَن لَّيْسَ لِلْإِنسَانِ إِلَّا مَا سَعَىٰ ۝ وَأَنَّ سَعْيَهُ سَوْفَ يُرَىٰ ﴾'],
+          gapBefore: true,
+          tone: 'verse',
+        },
+      ],
       align: 'center',
+      length: 'extra-long',
     },
     {
-      id: 'turning',
-      eyebrow: '09 · The turning',
-      english: ['The sky changes slowly.', 'So slowly you barely notice—until everything looks different.'],
-      arabic: ['تتغير السماء ببطء.', 'ببطءٍ لا نكاد نلحظه… حتى يبدو كل شيء مختلفًا.'],
+      id: 'what-changes-us',
+      eyebrow: '09 · What changes us',
+      blocks: [
+        {
+          lines: [
+            'Some people enter our lives and confirm what we already believed.',
+            'Others make us look again.',
+          ],
+          tone: 'lead',
+        },
+        { lines: ['Perhaps the rarest ones do a little of both.'], gapBefore: true },
+      ],
       align: 'right',
+      length: 'long',
     },
     {
-      id: 'last-stars',
-      eyebrow: '10 · The last stars',
-      english: ['Most lights faded with the night.', 'One stayed a little longer.'],
-      arabic: ['تلاشت معظم الأضواء مع الليل.', 'وبقي ضوءٌ واحد قليلًا أطول.'],
+      id: 'a-little-longer',
+      eyebrow: '10 · A little longer',
+      blocks: [
+        {
+          lines: [
+            'Not every beautiful thing has to arrive all at once.',
+            'Some things are worth the distance, the patience, and the time.',
+          ],
+          tone: 'lead',
+        },
+        { lines: ['The sky knows how to wait.'], gapBefore: true },
+      ],
       align: 'left',
+      length: 'long',
     },
     {
-      id: 'sunrise',
+      id: 'morning',
       eyebrow: '11 · Morning',
-      english: ['Morning came.', 'Not because the night was not beautiful—but because there is beauty in what comes next.'],
-      arabic: ['وجاء الصباح.', 'ليس لأن الليل لم يكن جميلًا… بل لأن فيما يأتي جمالًا أيضًا.'],
+      blocks: [
+        { lines: ['And then morning comes.'], tone: 'lead' },
+        {
+          lines: [
+            'I hope this year gives back to you some of the care you so naturally give to everyone else.',
+            'Rest when you are tired. Laugh from your heart. Chase what matters to you.',
+            'And every once in a while, choose yourself too.',
+          ],
+          gapBefore: true,
+        },
+      ],
       align: 'center',
+      length: 'extra-long',
     },
     {
-      id: 'birthday',
-      eyebrow: '12 · For you',
-      english: [],
-      arabic: [],
+      id: 'for-raghad',
+      eyebrow: '12 · For Raghad',
+      blocks: [],
       align: 'center',
+      length: 'extra-long',
       final: true,
     },
   ],
-  finalHeading: {
-    english: 'Happy Birthday, Raghad',
-    arabic: 'عيد ميلاد سعيد يا رغد',
-  },
-  finalMessage: {
-    english: 'May this new year of your life feel open and luminous—full of gentle surprises, brave beginnings, and people who see the rare light you carry. You deserve mornings that feel hopeful, nights that feel safe, and a thousand reasons to smile in between.',
-    arabic: 'أتمنى أن تكون سنتك الجديدة رحبةً ومضيئة، مليئة بالمفاجآت الجميلة والبدايات الشجاعة وبأشخاص يرون النور النادر الذي تحملينه. تستحقين صباحاتٍ تبعث الأمل، وليالي تمنح الأمان، وألف سبب للابتسام بينهما.',
-  },
+  finalIntro: 'For every beautiful morning ahead',
+  finalHeading: 'Happy Birthday, Raghad',
+  finalParagraphs: [
+    ['I hope this year brings you closer to every life you have quietly imagined for yourself.'],
+    ['May you keep the principles that made you who you are, recognize the exceptions worth making room for, and never lose the part of you that believes in striving—even when the road is long.'],
+    ['I hope you find peace in what you choose, courage in what you pursue, and people beside you who make you feel safe, understood, respected, and completely yourself.'],
+    ['And whenever you forget the light you carry, I hope life finds a gentle way to remind you.'],
+    ['Happy Birthday, Raghad.', 'May every morning ahead be kinder than the one before it.'],
+  ],
   audioLabels: {
-    play: 'Play the sky · شغّلي صوت السماء',
-    pause: 'Quiet the sky · أوقفي صوت السماء',
+    play: 'Play the sky',
+    pause: 'Quiet the sky',
   },
 };
